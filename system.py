@@ -47,7 +47,7 @@ class SystemInfo:
 
     @staticmethod
     def _build_answer(disk_info, disk_usage):
-        return [info | disk for info, disk in zip(disk_info, disk_usage)]
+        return [namedtuple('fs', info | disk)(**info | disk) for info, disk in zip(disk_info, disk_usage)]
 
     def get_disk_info(self):
         disks = self._get_disk_devices()
