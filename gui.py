@@ -34,9 +34,10 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
 
         for i, device in enumerate(fs_info):
             for j, item in enumerate(device):
-                self.fs_table.setItem(i, j, QtWidgets.QTableWidgetItem(str(item)))
+                if j != 5:
+                    self.fs_table.setItem(i, j, QtWidgets.QTableWidgetItem(str(item)))
 
-                if j == 5:
+                else:
                     widget_instance = text_and_progress.TextAndProgress(str(item), int(device.percent))
                     self.fs_table.setCellWidget(i, j, widget_instance.get_txt_progress_widget())
 
