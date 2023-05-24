@@ -79,6 +79,51 @@ QTabBar::tab:!selected {
       <attribute name="title">
        <string>Processes</string>
       </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QTableWidget" name="proc_table">
+         <attribute name="horizontalHeaderCascadingSectionResizes">
+          <bool>false</bool>
+         </attribute>
+         <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+          <bool>false</bool>
+         </attribute>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>3</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>4</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>5</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>6</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">

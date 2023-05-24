@@ -17,6 +17,7 @@ def main():
     window.tab_number_signal.connect(controller.hand_request)
     controller.sys_info_signal.connect(window.show_sys_info)
     controller.fs_signal.connect(window.show_fs_info)
+    controller.processes_signal.connect(window.show_processes_info)
 
     window.show()
 

@@ -1,4 +1,5 @@
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5.QtWidgets import QHeaderView
 
 from loguru import logger
 
@@ -41,7 +42,19 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
                     widget_instance = text_and_progress.TextAndProgress(str(item), int(device.percent))
                     self.fs_table.setCellWidget(i, j, widget_instance.get_txt_progress_widget())
 
-        self.fs_table.resizeColumnsToContents()
+        # self.fs_table.resizeColumnsToContents()
         self.fs_table.resizeRowsToContents()
 
+    def show_processes_info(self, proc_info):
+        logger.debug(proc_info)
+
+        self.proc_table.setRowCount(len(proc_info))
+
+        for i, device in enumerate(proc_info):
+            for j, item in enumerate(device):
+                header_item = QtWidgets.QTableWidgetItem(str(device._fields[j]))
+                self.proc_table.setHorizontalHeaderItem(j, header_item)
+                self.proc_table.setItem(i, j, QtWidgets.QTableWidgetItem(str(item)))
+
+        self.proc_table.resizeRowsToContents()
 

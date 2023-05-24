@@ -56,9 +56,23 @@ class SystemInfo:
         logger.debug(answer)
         return answer
 
+    @staticmethod
+    def get_processes_info():
+        lst = []
+
+        for proc in psutil.process_iter():
+            try:
+                p_info = proc.as_dict(attrs=['pid', 'name', 'username', 'cpu_percent', 'status'])
+                p_info['memory'] = round(proc.memory_info().rss / 1e9, 2)
+                lst.append(p_info)
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                pass
+        return [namedtuple('proc', proc)(**proc) for proc in lst]
+
 
 if __name__ == '__main__':
     info_instance = SystemInfo()
-    info_ = info_instance.get_sys_info()
-    print(info_)
-    print(info_instance.get_disk_info())
+    # info_ = info_instance.get_sys_info()
+    # print(info_)
+    # print(info_instance.get_disk_info())
+    print(info_instance.get_processes_info())

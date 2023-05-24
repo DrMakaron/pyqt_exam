@@ -9,6 +9,7 @@ class Controller(QtCore.QObject):
 
     timer_updater = QtCore.QTimer()
 
+    processes_signal = QtCore.pyqtSignal(list)
     fs_signal = QtCore.pyqtSignal(list)
     sys_info_signal = QtCore.pyqtSignal(str)
 
@@ -33,7 +34,8 @@ class Controller(QtCore.QObject):
         match self.__current_data_pack:
 
             case 0:
-                pass
+                proc_info = self.sys_info.get_processes_info()
+                self.processes_signal.emit(proc_info)
 
             case 1:
                 pass
