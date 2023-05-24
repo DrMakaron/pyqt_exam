@@ -3,7 +3,7 @@ from PyQt5.QtCore import Qt
 
 from loguru import logger
 
-from widgets import main_form
+from widgets import main_form, text_and_progress
 
 
 class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
@@ -53,7 +53,8 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
                 self.fs_table.setItem(i, j, QtWidgets.QTableWidgetItem(str(item)))
 
                 if j == 5:
-                    self.fs_table.setCellWidget(i, j, self._get_txt_progress_widget(str(item), int(device.percent)))
+                    widget_instance = text_and_progress.TextAndProgress(str(item), int(device.percent))
+                    self.fs_table.setCellWidget(i, j, widget_instance.get_txt_progress_widget())
 
         self.fs_table.resizeColumnsToContents()
         self.fs_table.resizeRowsToContents()
