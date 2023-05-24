@@ -89,6 +89,42 @@ QTabBar::tab:!selected {
       <attribute name="title">
        <string>File system</string>
       </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QTableWidget" name="fs_table">
+         <column>
+          <property name="text">
+           <string>Device</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Directory</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Type</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Total</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Free</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Used</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
