@@ -1,5 +1,4 @@
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import Qt
 
 from loguru import logger
 
@@ -15,21 +14,6 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         self.setupUi(self)
 
         self.init_signals()
-
-    @staticmethod
-    def _get_txt_progress_widget(text, progress_value):
-        disk_usage_progress = QtWidgets.QProgressBar()
-        disk_usage_progress.setValue(progress_value)
-        disk_usage_label = QtWidgets.QLabel()
-        disk_usage_label.setText(text)
-        disk_usage_layout = QtWidgets.QHBoxLayout()
-        disk_usage_widget = QtWidgets.QWidget()
-        disk_usage_layout.addWidget(disk_usage_label)
-        disk_usage_layout.addWidget(disk_usage_progress)
-        disk_usage_layout.setAlignment(Qt.AlignRight)
-        disk_usage_widget.setLayout(disk_usage_layout)
-
-        return disk_usage_widget
 
     def init_signals(self):
         self.tabWidget.currentChanged.connect(self.send_tab_number)
