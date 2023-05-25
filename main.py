@@ -7,6 +7,11 @@ from gui import MainGui
 
 
 def main():
+    """
+    Точка входа в приложение
+    Создаются экземпляры, подключаются сигналы для связи экземпляров
+    :return:
+    """
     app = QtWidgets.QApplication(sys.argv)
 
     # instances

@@ -3,7 +3,9 @@ from PyQt5.QtCore import Qt
 
 
 class TextAndProgress(QtWidgets.QWidget):
-
+    """
+    Виджет, объединяющий в себе QProgreeBar и QLabel
+    """
     def __init__(self, text, progress_value):
         super().__init__()
 

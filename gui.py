@@ -8,13 +8,16 @@ from resources import colors
 
 
 class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
-
-    CHUNK_SIZE = 100
-    MAX_CHUNKS = 10
+    """
+    Класс формарует пользовательский интерфейс
+    """
 
     tab_number_signal = QtCore.pyqtSignal(int)
 
     def __init__(self):
+        """
+        Конструктор класса
+        """
         super().__init__()
 
         self.setupUi(self)
@@ -34,6 +37,10 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         self.init_signals()
 
     def init_plot_widgets(self):
+        """
+        Метод инициализирует виджеты для отображения графиков
+        :return:
+        """
         self.gridLayout_plot = QtWidgets.QGridLayout(self.plot_cpu_widget)
         self.view_plot = pg.GraphicsLayoutWidget(show=True)
         self.gridLayout_plot.addWidget(self.view_plot)
@@ -51,19 +58,37 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         self.plot_1.setLabel('left', 'RAM usage', '%')
 
     def init_signals(self):
+        """
+        Метод для инициализации сигналов
+        :return:
+        """
         self.tabWidget.currentChanged.connect(self.send_tab_number)
 
     def send_tab_number(self):
+        """
+        Метод для отправки номера выбранной вкладки
+        :return:
+        """
         sender = self.sender()
         tab_number = sender.currentIndex()
         self.tab_number_signal.emit(tab_number)
         logger.debug(f'Tab {tab_number} selected.')
 
     def show_sys_info(self, info_string: str) -> None:
+        """
+        Метод для отображения системной информации
+        :param info_string: строка с системной информацией
+        :return:
+        """
         logger.debug(f'Sys info received: {info_string}')
         self.info.setPlainText(info_string)
 
     def show_fs_info(self, fs_info):
+        """
+        Метод для отображения информации о файловой системе
+        :param fs_info:
+        :return:
+        """
         logger.debug(fs_info)
         self.fs_table.setRowCount(len(fs_info))
 
@@ -79,6 +104,11 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         self.fs_table.resizeRowsToContents()
 
     def show_processes_info(self, proc_info):
+        """
+        Метод для отображения информации о процессах в системе
+        :param proc_info:
+        :return:
+        """
         logger.debug(proc_info)
 
         self.proc_table.setRowCount(len(proc_info))
@@ -92,6 +122,11 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         self.proc_table.resizeRowsToContents()
 
     def generate_datasets(self, quantity):
+        """
+        Метод для генерации датасетов для отрисовки графиков (использование ЦП и ОЗУ)
+        :param quantity:
+        :return:
+        """
         logger.debug(quantity)
         self.__core_datasets = [[] for _ in range(quantity)]
         self.__ram_usage_data = []
@@ -99,12 +134,22 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
 
     @staticmethod
     def _generate_cpu_statistic_string(cpu_usage_data):
+        """
+        Метод генерирует строку с отображением информации о загрузке ЦП
+        :param cpu_usage_data:
+        :return:
+        """
         data = [f' CPU {i + 1}: {usage} % ' for i, usage in enumerate(cpu_usage_data)]
         result = '----------------'.join(data)
         print(result)
         return result
 
     def plot_cpu_usage(self, usage_dataset):
+        """
+        Метод отрисовывает график загрузки ЦП
+        :param usage_dataset:
+        :return:
+        """
         logger.debug(usage_dataset)
         self.plot.clear()
 
@@ -118,6 +163,11 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         self.plot.setLabel('bottom', self._generate_cpu_statistic_string(usage_dataset), 'num')
 
     def plot_ram_usage(self, usage_percent):
+        """
+        Метод отрисовывает график загрузки ОЗУ
+        :param usage_percent:
+        :return:
+        """
         logger.debug(usage_percent)
         self.plot_1.clear()
         self.__ram_usage_data.append(usage_percent)

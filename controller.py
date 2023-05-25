@@ -6,6 +6,9 @@ from system import SystemInfo
 
 
 class Controller(QtCore.QObject):
+    """
+    Класс запрашивает данные о системе и отправляет их на отображение
+    """
 
     timer_updater = QtCore.QTimer()
 
@@ -18,6 +21,9 @@ class Controller(QtCore.QObject):
     sys_info_signal = QtCore.pyqtSignal(str)
 
     def __init__(self):
+        """
+        Конструктор класса
+        """
         super().__init__()
 
         self.__current_data_pack = 0
@@ -29,13 +35,30 @@ class Controller(QtCore.QObject):
         self.timer_updater.start(500)
 
     def init_signals(self) -> None:
+        """
+        Инициализация сигналов
+        :return:
+        """
         self.timer_updater.timeout.connect(self.send_data)
 
     def hand_request(self, num: int) -> None:
+        """
+        Метод обрабатывает запрос на обновление конкретного типа системной информации
+        :param num: номер выбранного виджета: 0, 1, 2 или 3
+        :return:
+        """
         self.__current_data_pack = num
         logger.debug(f'Data pack updated to: {num} {self.__current_data_pack=}')
 
     def send_data(self) -> None:
+        """
+        Метод в зависимости от выбранного виджета отправляет на отображение выбранный тип информации
+        0 - информация о процеммах
+        1 - информация о загрузке ЦП и ОЗУ
+        2 - информация о файловой системе
+        3 - общая информация о системе
+        :return:
+        """
         match self.__current_data_pack:
 
             case 0:
