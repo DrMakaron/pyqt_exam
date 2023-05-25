@@ -10,6 +10,9 @@ class Controller(QtCore.QObject):
     timer_updater = QtCore.QTimer()
 
     processes_signal = QtCore.pyqtSignal(list)
+    cpu_cores_signal = QtCore.pyqtSignal(int)
+    start_trace_signal = QtCore.pyqtSignal()
+    cpu_usage_signal = QtCore.pyqtSignal(list)
     fs_signal = QtCore.pyqtSignal(list)
     sys_info_signal = QtCore.pyqtSignal(str)
 
@@ -17,6 +20,7 @@ class Controller(QtCore.QObject):
         super().__init__()
 
         self.__current_data_pack = 0
+        self.__cpu_core_send_flag = False
 
         self.sys_info = SystemInfo()
 
@@ -36,13 +40,22 @@ class Controller(QtCore.QObject):
             case 0:
                 proc_info = self.sys_info.get_processes_info()
                 self.processes_signal.emit(proc_info)
+                self.__cpu_core_send_flag = False
 
             case 1:
-                pass
+                if not self.__cpu_core_send_flag:
+                    cores = self.sys_info.get_cpu_quantity()
+                    self.cpu_cores_signal.emit(cores)
+                    self.start_trace_signal.emit()
+                    self.__cpu_core_send_flag = True
+                else:
+                    cpu_usage = self.sys_info.get_cpu_usage()
+                    self.cpu_usage_signal.emit(cpu_usage)
 
             case 2:
                 fs_info = self.sys_info.get_disk_info()
                 self.fs_signal.emit(fs_info)
+                self.__cpu_core_send_flag = False
 
             case 3:
                 system = self.sys_info.get_sys_info()
@@ -53,3 +66,4 @@ class Controller(QtCore.QObject):
                               f'CPU: {system.cpu}'
 
                 self.sys_info_signal.emit(info_string)
+                self.__cpu_core_send_flag = False

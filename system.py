@@ -69,6 +69,14 @@ class SystemInfo:
                 pass
         return [namedtuple('proc', proc)(**proc) for proc in lst]
 
+    @staticmethod
+    def get_cpu_quantity():
+        return psutil.cpu_count()
+
+    @staticmethod
+    def get_cpu_usage():
+        return psutil.cpu_percent(percpu=True)
+
 
 if __name__ == '__main__':
     info_instance = SystemInfo()

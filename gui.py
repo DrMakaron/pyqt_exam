@@ -1,3 +1,5 @@
+from time import perf_counter
+
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QHeaderView
 
@@ -13,6 +15,9 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         super().__init__()
 
         self.setupUi(self)
+
+        self.__core_datasets = None
+        self.__start_trace_time = None
 
         self.init_signals()
 
@@ -58,3 +63,14 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
 
         self.proc_table.resizeRowsToContents()
 
+    def generate_cores_datasets(self, quantity):
+        logger.debug(quantity)
+        self.__core_datasets = [[]] * quantity
+        logger.debug(self.__core_datasets)
+
+    def mark_start_trace(self):
+        self.__start_trace_time = perf_counter()
+        logger.debug('Trace start time marked!')
+
+    def plot_cpu_usage(self, usage_dataset):
+        logger.debug(usage_dataset)
