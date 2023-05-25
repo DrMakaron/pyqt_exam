@@ -18,7 +18,7 @@ def main():
     controller.sys_info_signal.connect(window.show_sys_info)
     controller.fs_signal.connect(window.show_fs_info)
     controller.processes_signal.connect(window.show_processes_info)
-    controller.cpu_cores_signal.connect(window.generate_cores_datasets)
+    controller.cpu_cores_signal.connect(window.generate_datasets)
     controller.cpu_usage_signal.connect(window.plot_cpu_usage)
     controller.ram_usage_signal.connect(window.plot_ram_usage)
 

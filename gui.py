@@ -25,7 +25,6 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         self.__core_datasets = None
         self.__start_trace_time = None
         self.__gridLayout_plot = None
-        self.__cpu_usage_data = None
         self.__ram_usage_data = []
         self.gridLayout_plot = None
         self.gridLayout_plot_1 = None
@@ -95,15 +94,11 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
 
         self.proc_table.resizeRowsToContents()
 
-    def generate_cores_datasets(self, quantity):
+    def generate_datasets(self, quantity):
         logger.debug(quantity)
-        self.__cpu_usage_data = np.empty((self.CHUNK_SIZE + 1, quantity))
         self.__core_datasets = [[] for _ in range(quantity)]
+        self.__ram_usage_data = []
         logger.debug(self.__core_datasets)
-
-    def mark_start_trace(self):
-        self.__start_trace_time = perf_counter()
-        logger.debug('Trace start time marked!')
 
     def plot_cpu_usage(self, usage_dataset):
         logger.debug(usage_dataset)
