@@ -26,9 +26,13 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         self.__start_trace_time = None
         self.__gridLayout_plot = None
         self.__cpu_usage_data = None
+        self.__ram_usage_data = []
         self.gridLayout_plot = None
+        self.gridLayout_plot_1 = None
         self.view_plot = None
+        self.view_plot_1 = None
         self.plot = None
+        self.plot_1 = None
 
         self.init_plot_widgets()
         self.init_signals()
@@ -41,6 +45,14 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         self.plot.showGrid(True, True, 1.0)
         self.plot.setLabel('bottom', 'Time', 's')
         self.plot.setLabel('left', 'CPU usage', '%')
+
+        self.gridLayout_plot_1 = QtWidgets.QGridLayout(self.plot_ram_widget)
+        self.view_plot_1 = pg.GraphicsLayoutWidget(show=True)
+        self.gridLayout_plot_1.addWidget(self.view_plot_1)
+        self.plot_1 = self.view_plot_1.addPlot()
+        self.plot_1.showGrid(True, True, 1.0)
+        self.plot_1.setLabel('bottom', 'Time', 's')
+        self.plot_1.setLabel('left', 'RAM usage', '%')
 
     def init_signals(self):
         self.tabWidget.currentChanged.connect(self.send_tab_number)
@@ -103,3 +115,11 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         for i, data in enumerate(self.__core_datasets):
             curve = self.plot.plot(data, pen=colors.COLORS.get(i + 1))
             curve.setData(data)
+
+    def plot_ram_usage(self, usage_percent):
+        logger.debug(usage_percent)
+        self.plot_1.clear()
+        self.__ram_usage_data.append(usage_percent)
+
+        curve = self.plot_1.plot(self.__ram_usage_data, pen=colors.COLORS.get(1))
+        curve.setData(self.__ram_usage_data)

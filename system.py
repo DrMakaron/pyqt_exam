@@ -77,10 +77,14 @@ class SystemInfo:
     def get_cpu_usage():
         return psutil.cpu_percent(percpu=True)
 
+    @staticmethod
+    def get_ram_usage():
+        return psutil.virtual_memory().percent
+
 
 if __name__ == '__main__':
     info_instance = SystemInfo()
     # info_ = info_instance.get_sys_info()
     # print(info_)
     # print(info_instance.get_disk_info())
-    print(info_instance.get_processes_info())
+    print(info_instance.get_ram_usage())

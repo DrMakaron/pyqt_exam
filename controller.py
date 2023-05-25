@@ -13,6 +13,7 @@ class Controller(QtCore.QObject):
     cpu_cores_signal = QtCore.pyqtSignal(int)
     start_trace_signal = QtCore.pyqtSignal()
     cpu_usage_signal = QtCore.pyqtSignal(list)
+    ram_usage_signal = QtCore.pyqtSignal(float)
     fs_signal = QtCore.pyqtSignal(list)
     sys_info_signal = QtCore.pyqtSignal(str)
 
@@ -50,7 +51,9 @@ class Controller(QtCore.QObject):
                     self.__cpu_core_send_flag = True
                 else:
                     cpu_usage = self.sys_info.get_cpu_usage()
+                    ram_usage = self.sys_info.get_ram_usage()
                     self.cpu_usage_signal.emit(cpu_usage)
+                    self.ram_usage_signal.emit(ram_usage)
 
             case 2:
                 fs_info = self.sys_info.get_disk_info()
