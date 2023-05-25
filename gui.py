@@ -1,14 +1,20 @@
 from time import perf_counter
 
-from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtWidgets import QHeaderView
+import numpy as np
+from PyQt5 import QtWidgets, QtCore
+import pyqtgraph as pg
 
 from loguru import logger
 
 from widgets import main_form, text_and_progress
+from resources import colors
 
 
 class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
+
+    CHUNK_SIZE = 100
+    MAX_CHUNKS = 10
+
     tab_number_signal = QtCore.pyqtSignal(int)
 
     def __init__(self):
@@ -18,8 +24,23 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
 
         self.__core_datasets = None
         self.__start_trace_time = None
+        self.__gridLayout_plot = None
+        self.__cpu_usage_data = None
+        self.gridLayout_plot = None
+        self.view_plot = None
+        self.plot = None
 
+        self.init_plot_widgets()
         self.init_signals()
+
+    def init_plot_widgets(self):
+        self.gridLayout_plot = QtWidgets.QGridLayout(self.plot_cpu_widget)
+        self.view_plot = pg.GraphicsLayoutWidget(show=True)
+        self.gridLayout_plot.addWidget(self.view_plot)
+        self.plot = self.view_plot.addPlot()
+        self.plot.showGrid(True, True, 1.0)
+        self.plot.setLabel('bottom', 'Time', 's')
+        self.plot.setLabel('left', 'CPU usage', '%')
 
     def init_signals(self):
         self.tabWidget.currentChanged.connect(self.send_tab_number)
@@ -65,7 +86,8 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
 
     def generate_cores_datasets(self, quantity):
         logger.debug(quantity)
-        self.__core_datasets = [[]] * quantity
+        self.__cpu_usage_data = np.empty((self.CHUNK_SIZE + 1, quantity))
+        self.__core_datasets = [[] for _ in range(quantity)]
         logger.debug(self.__core_datasets)
 
     def mark_start_trace(self):
@@ -74,3 +96,11 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
 
     def plot_cpu_usage(self, usage_dataset):
         logger.debug(usage_dataset)
+        self.plot.clear()
+
+        for i, value in enumerate(usage_dataset):
+            self.__core_datasets[i].append(value)
+
+        for i, data in enumerate(self.__core_datasets):
+            curve = self.plot.plot(data, pen=colors.COLORS.get(i + 1))
+            curve.setData(data)

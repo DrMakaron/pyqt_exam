@@ -19,7 +19,6 @@ def main():
     controller.fs_signal.connect(window.show_fs_info)
     controller.processes_signal.connect(window.show_processes_info)
     controller.cpu_cores_signal.connect(window.generate_cores_datasets)
-    controller.start_trace_signal.connect(window.mark_start_trace)
     controller.cpu_usage_signal.connect(window.plot_cpu_usage)
 
     window.show()

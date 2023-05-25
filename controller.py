@@ -25,7 +25,7 @@ class Controller(QtCore.QObject):
         self.sys_info = SystemInfo()
 
         self.init_signals()
-        self.timer_updater.start(500)
+        self.timer_updater.start(100)
 
     def init_signals(self) -> None:
         self.timer_updater.timeout.connect(self.send_data)

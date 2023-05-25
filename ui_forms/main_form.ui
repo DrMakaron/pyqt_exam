@@ -129,6 +129,14 @@ QTabBar::tab:!selected {
       <attribute name="title">
        <string>Resources</string>
       </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QWidget" name="plot_cpu_widget" native="true"/>
+       </item>
+       <item>
+        <widget class="QWidget" name="plot_ram_widget" native="true"/>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
