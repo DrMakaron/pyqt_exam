@@ -68,7 +68,6 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
                     widget_instance = text_and_progress.TextAndProgress(str(item), int(device.percent))
                     self.fs_table.setCellWidget(i, j, widget_instance.get_txt_progress_widget())
 
-        # self.fs_table.resizeColumnsToContents()
         self.fs_table.resizeRowsToContents()
 
     def show_processes_info(self, proc_info):
