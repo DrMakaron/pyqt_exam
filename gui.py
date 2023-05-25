@@ -1,6 +1,3 @@
-from time import perf_counter
-
-import numpy as np
 from PyQt5 import QtWidgets, QtCore
 import pyqtgraph as pg
 
@@ -42,7 +39,7 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         self.gridLayout_plot.addWidget(self.view_plot)
         self.plot = self.view_plot.addPlot()
         self.plot.showGrid(True, True, 1.0)
-        self.plot.setLabel('bottom', 'Time', 's')
+        self.plot.setLabel('bottom', 'Counts', 'num')
         self.plot.setLabel('left', 'CPU usage', '%')
 
         self.gridLayout_plot_1 = QtWidgets.QGridLayout(self.plot_ram_widget)
@@ -50,7 +47,7 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         self.gridLayout_plot_1.addWidget(self.view_plot_1)
         self.plot_1 = self.view_plot_1.addPlot()
         self.plot_1.showGrid(True, True, 1.0)
-        self.plot_1.setLabel('bottom', 'Time', 's')
+        self.plot_1.setLabel('bottom', 'Counts', 'num')
         self.plot_1.setLabel('left', 'RAM usage', '%')
 
     def init_signals(self):
