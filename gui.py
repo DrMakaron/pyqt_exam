@@ -39,7 +39,7 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         self.gridLayout_plot.addWidget(self.view_plot)
         self.plot = self.view_plot.addPlot()
         self.plot.showGrid(True, True, 1.0)
-        self.plot.setLabel('bottom', 'Counts', 'num')
+        # self.plot.setLabel('bottom', 'Counts', 'num')
         self.plot.setLabel('left', 'CPU usage', '%')
 
         self.gridLayout_plot_1 = QtWidgets.QGridLayout(self.plot_ram_widget)
@@ -97,6 +97,13 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         self.__ram_usage_data = []
         logger.debug(self.__core_datasets)
 
+    @staticmethod
+    def _generate_cpu_statistic_string(cpu_usage_data):
+        data = [f' CPU {i + 1}: {usage} % ' for i, usage in enumerate(cpu_usage_data)]
+        result = '----------------'.join(data)
+        print(result)
+        return result
+
     def plot_cpu_usage(self, usage_dataset):
         logger.debug(usage_dataset)
         self.plot.clear()
@@ -107,6 +114,8 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
         for i, data in enumerate(self.__core_datasets):
             curve = self.plot.plot(data, pen=colors.COLORS.get(i + 1))
             curve.setData(data)
+
+        self.plot.setLabel('bottom', self._generate_cpu_statistic_string(usage_dataset), 'num')
 
     def plot_ram_usage(self, usage_percent):
         logger.debug(usage_percent)
