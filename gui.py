@@ -39,6 +39,7 @@ class MainGui(QtWidgets.QWidget, main_form.Ui_Form):
 
     def default(self):
         self.setWindowTitle('SystemMonitor')
+
     def init_plot_widgets(self):
         """
         Метод инициализирует виджеты для отображения графиков
